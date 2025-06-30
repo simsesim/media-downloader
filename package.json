@@ -1,5 +1,5 @@
 {
-  "name": "yt-dlp-gui",
+  "name": "simse's media downloader",
   "version": "1.0.0",
   "description": "A simple GUI wrapper for yt-dlp, without the fuss.",
   "main": "main.js",
@@ -13,8 +13,8 @@
     "build-mac": "electron-builder --mac"
   },
   "build": {
-    "appId": "com.simse.yt-dlp-gui",
-    "productName": "YT-DLP GUI",
+    "appId": "com.simse.mediadownloader",
+    "productName": "simse's media downloader",
     "directories": {
       "output": "dist"
     },
