@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>simse's media downloader</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <center>
+    <h1>simse's media downloader</h1>
+        <input type="text" id="url-input" placeholder="Paste URL here">
+        <div>
+        <label>
+            <input type="radio" name="download-type" value="video" checked> Video
+        </label>
+        <label>
+            <input type="radio" name="download-type" value="audio"> Audio
+        </label>
+        <button id="download-btn">Download</button>
+    </div>
+    <div id="output"></div>
+    </center>
+
+    <center>
+    <div style="position: absolute; bottom: 20px; width: 590px;">
+    <button id="folder-btn">Choose Download Folder</button><br>
+        <span id="folder-display">No folder selected (will use current directory)</span>
+    </div>
+    </center>
+
+     <script>
+        const urlInput = document.getElementById('url-input');
+        const downloadBtn = document.getElementById('download-btn');
+        const folderBtn = document.getElementById('folder-btn');
+        const folderDisplay = document.getElementById('folder-display');
+        const output = document.getElementById('output');
+        
+        let selectedFolder = null;  // Store the selected folder
+        
+        // Load saved folder on startup
+        const savedFolder = localStorage.getItem('downloadFolder');
+        if (savedFolder) {
+            selectedFolder = savedFolder;
+            folderDisplay.textContent = `Download to: ${savedFolder}`;
+        }
+        
+        // Handle folder selection
+        folderBtn.addEventListener('click', async () => {
+            try {
+                const folder = await window.myAPI.selectFolder();
+                if (folder) {
+                    selectedFolder = folder;
+                    folderDisplay.textContent = `Download to: ${folder}`;
+                    localStorage.setItem('downloadFolder', folder);
+                }
+            } catch (error) {
+                console.error('Error selecting folder:', error);
+            }
+        });
+
+        downloadBtn.addEventListener('click', async () => {
+            const url = urlInput.value;
+            const selectedType = document.querySelector('input[name="download-type"]:checked').value;
+            
+            if (url) {
+                output.textContent = 'Processing...';
+                
+                try {
+                    // Pass the selected folder to the download function
+                    const result = await window.myAPI.downloadVideo(url, selectedType, selectedFolder);
+                    output.textContent = result;
+                } catch (error) {
+                    output.textContent = `An error ocurred, please check for any spelling errors or internet problems and try again later.`;
+                }
+            } else {
+                output.textContent = 'Please enter a URL!';
+            }
+        });
+    </script>
+</body>
+</html>
