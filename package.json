@@ -1,5 +1,5 @@
 {
-  "name": "simse's media downloader",
+  "name": "simse-media-downloader",
   "version": "1.0.0",
   "description": "A simple GUI wrapper for yt-dlp, without the fuss.",
   "main": "main.js",
