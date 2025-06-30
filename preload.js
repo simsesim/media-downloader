@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('myAPI', {
     return ipcRenderer.invoke('select-folder');
   },
   
-  downloadVideo: (url, type, outputPath) => {
-    return ipcRenderer.invoke('download-video', url, type, outputPath);
+  downloadVideo: (url, type, outputPath, keepOriginal) => {
+    return ipcRenderer.invoke('download-video', url, type, outputPath, keepOriginal);
   }
 });

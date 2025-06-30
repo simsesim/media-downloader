@@ -15,6 +15,13 @@
         <label>
             <input type="radio" name="download-type" value="audio"> Audio
         </label>
+        </div>
+        <div>
+        <label>
+            <input type="checkbox" id="keep-original"> Keep original format
+        </label>
+        </div>
+        <div>
         <button id="download-btn">Download</button>
     </div>
     <div id="output"></div>
@@ -60,13 +67,14 @@
         downloadBtn.addEventListener('click', async () => {
             const url = urlInput.value;
             const selectedType = document.querySelector('input[name="download-type"]:checked').value;
+            const keepOriginal = document.getElementById('keep-original').checked;
             
             if (url) {
                 output.textContent = 'Processing...';
                 
                 try {
-                    // Pass the selected folder to the download function
-                    const result = await window.myAPI.downloadVideo(url, selectedType, selectedFolder);
+                    // Pass the selected folder and keepOriginal to the download function
+                    const result = await window.myAPI.downloadVideo(url, selectedType, selectedFolder, keepOriginal);
                     output.textContent = result;
                 } catch (error) {
                     output.textContent = `An error ocurred, please check for any spelling errors or internet problems and try again later.`;

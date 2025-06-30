@@ -1,6 +1,6 @@
 {
   "name": "simse-media-downloader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple GUI wrapper for yt-dlp, without the fuss.",
   "main": "main.js",
   "homepage": "./",
