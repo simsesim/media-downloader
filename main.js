@@ -45,10 +45,11 @@ ipcMain.handle('select-folder', async () => {
   return null;  // User canceled
 });
 
-// Update your existing download handler to accept output path
-ipcMain.handle('download-video', async (event, url, type, outputPath) => {
+// Update your existing download handler to accept output path and keepOriginal
+ipcMain.handle('download-video', async (event, url, type, outputPath, keepOriginal) => {
   console.log(`Received ${type} download request for:`, url);
   console.log('Output path:', outputPath);
+  console.log('Keep original:', keepOriginal);
   
   return new Promise((resolve, reject) => {
     // Get the bundled yt-dlp binary path
@@ -71,6 +72,11 @@ ipcMain.handle('download-video', async (event, url, type, outputPath) => {
     }
     
     let args = [url, '--no-playlist'];
+    
+    // Add keep original format flag if enabled
+    if (keepOriginal) {
+      args.push('-k');
+    }
     
     // Add output path if provided
     if (outputPath) {
@@ -97,7 +103,7 @@ ipcMain.handle('download-video', async (event, url, type, outputPath) => {
     
     ytdlp.on('close', (code) => {
       if (code === 0) {
-        resolve(`Success! Downloaded ${type} to ${outputPath || 'current directory'}:\n${output}`);
+        resolve(`Success! Downloaded ${type} to ${outputPath || 'current directory'}:`);
       } else {
         reject(`Failed with code ${code}:\n${error}`);
       }
